@@ -47,6 +47,10 @@ jobs:
           name: deploy udagram frontend
           command: |
             npm run frontend:deploy
+      - run:
+          name: deploy udagram api
+          command: |
+            npm run backend:deploy
 workflows:
   udagram:
     jobs:
