@@ -54,6 +54,7 @@ jobs:
     steps:
       - aws-cli/setup
       - eb-cli/setup
+      - node/install
       - attach_workspace:
           at: ./
       - run:
