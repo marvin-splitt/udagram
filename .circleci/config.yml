@@ -13,7 +13,8 @@ jobs:
   build:
     executor: docker-cimg
     steps:
-      - node/install
+      - node/install:
+          version: 14.15.4
       - checkout
       - run:
           name: install backend dependencies
