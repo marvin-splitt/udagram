@@ -1,0 +1,56 @@
+version: 2.1
+
+orbs:
+  node: circleci/node@4.1.0
+  aws-cli: circleci/aws-cli@2.0
+  eb-cli: circleci/aws-elastic-beanstalk@2.0.1
+
+executors:
+  docker-cimg:
+    docker:
+      - image: "cimg/base:stable"
+jobs:
+  build:
+    executor: docker-cimg
+    steps:
+      - node/install
+      - checkout
+      - run:
+          name: install backend dependencies
+          command: |
+            npm run backend:install
+      - run:
+          name: install frontend dependencies
+          command: |
+            npm run frontend:install
+      - run:
+          name: build server
+          command: |
+            npm run backend:build
+      - run:
+          name: build frontend
+          command: |
+            npm run frontend:build
+      - persist_to_workspace:
+          root: ./
+          paths:
+            - ./udagram-api
+            - ./udagram-frontend
+  deploy:
+    executor: docker-cimg
+    steps:
+      - aws-cli/setup
+      - eb-cli/setup
+      - attach_workspace:
+          at: ./
+      - run:
+          name: deploy udagram frontend
+          command: |
+            npm run frontend:deploy
+workflows:
+  udagram:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
