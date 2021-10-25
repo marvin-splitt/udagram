@@ -3,7 +3,7 @@ version: 2.1
 orbs:
   node: circleci/node@4.7.0
   aws-cli: circleci/aws-cli@2.0
-  eb-cli: circleci/aws-elastic-beanstalk@2.0.1
+  eb: circleci/aws-elastic-beanstalk@2.0.1
 
 executors:
   docker-cimg:
@@ -53,7 +53,7 @@ jobs:
     executor: docker-cimg
     steps:
       - aws-cli/setup
-      - eb-cli/setup
+      - eb/setup
       - node/install
       - checkout
       - attach_workspace:
@@ -62,6 +62,21 @@ jobs:
           name: deploy udagram frontend
           command: |
             npm run frontend:deploy
+      - run:
+          name: deploy udagram api
+          command: |
+            eb init -r $AWS_DEFAULT_REGION
+            eb use Udagrambackend-env
+            eb deploy -l version-<<pipeline.number>>
+          working_directory: ./udagram-api
+      
+workflows:
+  udagram:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
       - eb/deploy:
           environment-name: Udagrambackend-env
           filters:
@@ -71,10 +86,3 @@ jobs:
           label: version-<<pipeline.number>>
           application-name: udagram-backend
           app-dir: ./udagram-api
-workflows:
-  udagram:
-    jobs:
-      - build
-      - deploy:
-          requires:
-            - build
