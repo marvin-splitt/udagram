@@ -62,10 +62,15 @@ jobs:
           name: deploy udagram frontend
           command: |
             npm run frontend:deploy
-      - run:
-          name: deploy udagram api
-          command: |
-            npm run backend:deploy
+      - eb/deploy:
+          environment-name: Udagrambackend-env
+          filters:
+            branches:
+              only:
+                - main
+          label: version-<<pipeline.number>>
+          application-name: udagram-backend
+          app-dir: ./udagram-api
 workflows:
   udagram:
     jobs:
