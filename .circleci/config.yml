@@ -77,12 +77,3 @@ workflows:
       - deploy:
           requires:
             - build
-      - eb/deploy:
-          environment-name: Udagrambackend-env
-          filters:
-            branches:
-              only:
-                - main
-          label: version-<<pipeline.number>>
-          application-name: udagram-backend
-          app-dir: ./udagram-api
