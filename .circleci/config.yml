@@ -59,16 +59,14 @@ jobs:
       - attach_workspace:
           at: ./
       - run:
+          name: deploy udagram api
+          command: |
+            eb deploy -l version-<<pipeline.number>>
+          working_directory: ./udagram-api
+      - run:
           name: deploy udagram frontend
           command: |
             npm run frontend:deploy
-      - run:
-          name: deploy udagram api
-          command: |
-            eb init udagram-backend -p node.js -r $AWS_DEFAULT_REGION 
-            eb use Udagrambackend-env
-            eb deploy -l version-<<pipeline.number>>
-          working_directory: ./udagram-api
       
 workflows:
   udagram:
