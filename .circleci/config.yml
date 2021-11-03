@@ -53,6 +53,10 @@ jobs:
           name: build frontend
           command: |
             npm run frontend:build
+      - run:
+          name: check .env
+          command: |
+            cat ./udagram-api/www/.env
       - persist_to_workspace:
           root: ./
           paths:
@@ -67,6 +71,10 @@ jobs:
       - checkout
       - attach_workspace:
           at: ./
+      - run:
+          name: check .env
+          command: |
+            cat ./udagram-api/www/.env
       - run:
           name: deploy udagram api
           command: |
