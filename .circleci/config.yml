@@ -12,9 +12,24 @@ executors:
 jobs:
   build:
     executor: docker-cimg
+    environment:
+      POSTGRES_USERNAME:  $POSTGRES_USERNAME
+      POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+      POSTGRES_DB: $POSTGRES_DB
+      POSTGRES_PORT: $POSTGRES_PORT
+      POSTGRES_HOST: $POSTGRES_HOST
+      AWS_REGION: $AWS_REGION
+      AWS_PROFILE: $AWS_PROFILE
+      AWS_BUCKET: $AWS_BUCKET
+      API_URL: $API_URL
+      JWT_SECRET: $JWT_SECRET
     steps:
       - node/install
       - checkout
+      - run:
+          name: check envs
+          command: |
+            printenv
       - run:
           name: swap node versions
           command: |
@@ -63,7 +78,6 @@ jobs:
           command: |
             eb init udagram-backend -p node.js -r $AWS_DEFAULT_REGION 
             eb use Udagrambackend-env
-            cat .elasticbeanstalk/config.yml
             eb deploy -l version-<<pipeline.number>>
           working_directory: ./udagram-api
       - run:
