@@ -61,6 +61,8 @@ jobs:
       - run:
           name: deploy udagram api
           command: |
+            eb init udagram-backend -p node.js -r $AWS_DEFAULT_REGION 
+            eb use Udagrambackend-env
             eb deploy -l version-<<pipeline.number>>
           working_directory: ./udagram-api
       - run:
