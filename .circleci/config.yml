@@ -20,6 +20,11 @@ jobs:
           command: |
             printenv
       - run:
+          name: generate .env
+          command: |
+            printenv > ./udagram-api/.env
+            cat ./udagram-api/.env
+      - run:
           name: swap node versions
           command: |
             set +e
