@@ -2,15 +2,32 @@
 
 This application is provided to you as an alternative starter project if you do not wish to host your own code done in the previous courses of this nanodegree. The udagram application is a fairly simple application that includes all the major components of a Full-Stack web application.
 
-## Getting Started
+## Production
 
-1. Clone this repo locally into the location of your choice.
-1. Move the content of the udagram folder at the root of the repository as this will become the main content of the project.
-1. Open a terminal and navigate to the root of the repo
-1. follow the instructions in the installation step
+Frontend Url: http://udacity-marvinsplitt.s3-website-us-east-1.amazonaws.com/
 
-The project can run but is missing some information to connect to the database and storage service. These will be setup during the course of the project
+Backend / API Url: http://udagrambackend-env.eba-5fsw3yf6.us-east-1.elasticbeanstalk.com/
 
+### Infrastructure
+
+- The application is completely hosted on AWS Cloud
+  - frontend on a S3 Buceket
+  - media data on a separate S3 Bucket
+  - api on elastic beanstalk
+  - postgres on rds
+
+#### Overview
+
+![Diagram](documentation/Architecture%20Diagram.jpeg)
+### Pipeline
+
+- We have to main jobs:
+  - a build process containing all steps for installing and building the complete application (frontend & backend)
+  - a deployment process containing all steps to ship the code to the aws cloud
+
+#### Overview
+
+![Diagram](documentation/Pipeline.jpeg)
 ### Dependencies
 
 ```
@@ -25,6 +42,17 @@ The project can run but is missing some information to connect to the database a
 - A S3 bucket for hosting uploaded pictures.
 
 ```
+
+### Below are the steps for a local development setup
+
+## Getting Started
+
+1. Clone this repo locally into the location of your choice.
+1. Move the content of the udagram folder at the root of the repository as this will become the main content of the project.
+1. Open a terminal and navigate to the root of the repo
+1. follow the instructions in the installation step
+
+The project can run but is missing some information to connect to the database and storage service. These will be setup during the course of the project
 
 ### Installation
 
